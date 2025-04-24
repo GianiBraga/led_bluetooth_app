@@ -12,7 +12,7 @@ Este projeto demonstra como um aplicativo Flutter pode se comunicar com um Ardui
 
 ## 🔌 Requisitos de Permissões (Android)
 
-Certifique-se de adicionar as seguintes permissões no arquivo `AndroidManifest.xml`:
+Certifique-se de adicionar as seguintes permissões no arquivo [`android/app/src/main/AndroidManifest.xml`](AndroidManifest.xml):
 
 ```xml
 <uses-permission android:name="android.permission.BLUETOOTH" />
