@@ -29,7 +29,7 @@ Certifique-se de adicionar as seguintes permissões no arquivo `AndroidManifest.
 - Interface simples e didática para alunos
 
 ## 📱 Estrutura do App Flutter
-- lib/main.dart: Tela principal do app
+- [`lib/main.dart`](lib/main.dart): Tela principal do app.
 - lib/home.dart: Tela inicial, conexão com Bluetooth e controle do LED.
 - lib/select_device_page.dart: Tela de seleção de dispositivos Bluetooth pareados.
 
