@@ -32,7 +32,7 @@ dependencies:
     sdk: flutter
   # Adicionar dependencia do bluetooth
   flutter_bluetooth_serial: ^0.4.0
-  #pedir permissão para app
+  # Solicitar permissão para o usuário
   permission_handler: ^11.3.1
 
 
