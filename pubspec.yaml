@@ -30,6 +30,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  # Adicionar dependencia do bluetooth
+  flutter_bluetooth_serial: ^0.4.0
+  #pedir permissão para app
+  permission_handler: ^11.3.1
 
 
   # The following adds the Cupertino Icons font to your application.
