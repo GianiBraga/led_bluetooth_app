@@ -20,7 +20,7 @@ Certifique-se de adicionar as seguintes permissões no arquivo `AndroidManifest.
 <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
 <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
 <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-´´´
+```
 
 ## ⚙️ Funcionalidades
 - Listagem de dispositivos Bluetooth já pareados
