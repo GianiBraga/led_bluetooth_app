@@ -1,58 +1,88 @@
-// Importações essenciais do Flutter e do pacote bluetooth
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-// Tela responsável por exibir os dispositivos Bluetooth já pareados
 class SelectBondedDevicePage extends StatelessWidget {
-  // Propriedade opcional para checar disponibilidade do Bluetooth (não usada diretamente aqui)
   final bool checkAvailability;
 
-  // Construtor da classe, com valor padrão true para checkAvailability
   const SelectBondedDevicePage({super.key, this.checkAvailability = true});
 
   @override
   Widget build(BuildContext context) {
-    // FutureBuilder para buscar os dispositivos pareados de forma assíncrona
     return FutureBuilder<List<BluetoothDevice>>(
-      // Solicita à API Bluetooth os dispositivos já pareados
       future: FlutterBluetoothSerial.instance.getBondedDevices(),
       builder: (context, snapshot) {
-        // Enquanto os dados ainda estão sendo carregados, exibe um indicador de progresso
         if (snapshot.connectionState != ConnectionState.done) {
           return Scaffold(
+            extendBodyBehindAppBar: true,
             appBar: AppBar(
-              title: const Text('Selecionar Dispositivo'),
+              title: Text(
+                'Selecionar Dispositivo',
+                style: GoogleFonts.rajdhani(),
+              ),
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              centerTitle: true,
             ),
-            body: const Center(
-              child: CircularProgressIndicator(),
-            ),
+            body: const Center(child: CircularProgressIndicator()),
           );
         }
 
-        // Se os dados foram carregados, utiliza a lista de dispositivos ou uma lista vazia
         List<BluetoothDevice> devices = snapshot.data ?? [];
 
-        // Cria a interface com a lista dos dispositivos encontrados
         return Scaffold(
+          extendBodyBehindAppBar: true,
           appBar: AppBar(
-            title: const Text('Selecionar Dispositivo Pareado'),
+            title: Text(
+              'Selecionar Dispositivo Pareado',
+              style: GoogleFonts.rajdhani(),
+            ),
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            centerTitle: true,
           ),
-          body: ListView.builder(
-            // Número de itens na lista
-            itemCount: devices.length,
-            itemBuilder: (context, index) {
-              // Pega o dispositivo atual
-              BluetoothDevice device = devices[index];
-              return ListTile(
-                // Mostra o nome e endereço do dispositivo
-                title: Text(device.name ?? "Dispositivo sem nome"),
-                subtitle: Text(device.address),
-                // Ao tocar no item, retorna o dispositivo selecionado para a tela anterior
-                onTap: () {
-                  Navigator.of(context).pop(device);
-                },
-              );
-            },
+          body: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xFF000000),
+                  Color(0xFF1C4C9C),
+                  Color(0xFF00C9FF),
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+            ),
+            child: ListView.builder(
+              padding: const EdgeInsets.only(top: kToolbarHeight + 20),
+              itemCount: devices.length,
+              itemBuilder: (context, index) {
+                BluetoothDevice device = devices[index];
+                return Card(
+                  color: Colors.white.withOpacity(0.1),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: ListTile(
+                    leading: const Icon(Icons.bluetooth, color: Colors.white),
+                    title: Text(
+                      device.name ?? "Dispositivo sem nome",
+                      style: GoogleFonts.rajdhani(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text(
+                      device.address,
+                      style: GoogleFonts.rajdhani(color: Colors.white70),
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pop(device);
+                    },
+                  ),
+                );
+              },
+            ),
           ),
         );
       },

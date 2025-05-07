@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:led_bluetooth_app/home.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'home_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,10 +11,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Ligar/Desligar LED',
+    return MaterialApp(
+      title: 'Controle Bluetooth - Arduino',
+      theme: ThemeData.dark().copyWith(
+        textTheme: GoogleFonts.rajdhaniTextTheme(ThemeData.dark().textTheme),
+      ),
+      home: const HomePage(),
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
     );
   }
 }
