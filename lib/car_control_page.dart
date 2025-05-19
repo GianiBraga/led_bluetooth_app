@@ -5,6 +5,7 @@ import 'package:flutter_joystick/flutter_joystick.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:led_bluetooth_app/select_device_page.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class CarControlPage extends StatefulWidget {
   const CarControlPage({super.key});
@@ -18,9 +19,8 @@ class _CarControlPageState extends State<CarControlPage> {
   BluetoothDevice? _selectedDevice;
   bool isConnecting = false;
   bool isConnected = false;
-  Timer? _stopTimer;
 
-  // Estados para efeito de clique
+  // Estados para clique visual
   bool _isForwardPressed = false;
   bool _isBackwardPressed = false;
 
@@ -34,14 +34,17 @@ class _CarControlPageState extends State<CarControlPage> {
     }
   }
 
-  void _startStopTimer() {
-    _stopTimer?.cancel();
-    _stopTimer = Timer(const Duration(milliseconds: 300), () {
-      _sendCommand("STOP");
-    });
+  Future<void> _checkPermissions() async {
+    await [
+      Permission.bluetooth,
+      Permission.bluetoothScan,
+      Permission.bluetoothConnect,
+      Permission.location,
+    ].request();
   }
 
   Future<void> _connectToDevice(BuildContext context) async {
+    _checkPermissions();
     final BluetoothDevice? device = await Navigator.push(
       context,
       MaterialPageRoute(builder: (_) => const SelectBondedDevicePage()),
@@ -73,7 +76,6 @@ class _CarControlPageState extends State<CarControlPage> {
 
   @override
   void dispose() {
-    _stopTimer?.cancel();
     _connection?.dispose();
     super.dispose();
   }
@@ -171,8 +173,10 @@ class _CarControlPageState extends State<CarControlPage> {
                                           _sendCommand("RIGHT");
                                         } else if (details.x < -0.5) {
                                           _sendCommand("LEFT");
+                                        } else {
+                                          _sendCommand("STOP_LEFT");
+                                          _sendCommand("STOP_RIGHT");
                                         }
-                                        _startStopTimer();
                                       },
                                     ),
                                   ),
@@ -205,7 +209,7 @@ class _CarControlPageState extends State<CarControlPage> {
                                     setState(() => _isForwardPressed = true);
                                   },
                                   onTapUp: () {
-                                    _sendCommand("STOP");
+                                    _sendCommand("STOP_FORWARD");
                                     setState(() => _isForwardPressed = false);
                                   },
                                 ),
@@ -219,7 +223,7 @@ class _CarControlPageState extends State<CarControlPage> {
                                     setState(() => _isBackwardPressed = true);
                                   },
                                   onTapUp: () {
-                                    _sendCommand("STOP");
+                                    _sendCommand("STOP_BACKWARD");
                                     setState(() => _isBackwardPressed = false);
                                   },
                                 ),
