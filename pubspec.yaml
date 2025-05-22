@@ -43,6 +43,12 @@ dependencies:
   cupertino_icons: ^1.0.6
   flutter_joystick: ^0.2.2
   google_fonts: ^6.2.1
+  flutter_launcher_icons: ^0.13.1
+
+flutter_icons:
+  android: true
+  ios: false
+  image_path: "assets/icon/icon_bt_control.png"
 
 dev_dependencies:
   flutter_test:
