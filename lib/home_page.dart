@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:led_bluetooth_app/led_control_page.dart';
 import 'package:led_bluetooth_app/car_control_page.dart';
+import 'package:led_bluetooth_app/voice_control_page.dart'; // Importe a nova página
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -61,6 +62,19 @@ class HomePage extends StatelessWidget {
                       MaterialPageRoute(
                           builder: (context) => const CarControlPage()),
                     );
+                  },
+                ),
+                const SizedBox(height: 30),
+                _buildGlassButton(
+                  context,
+                  icon: Icons.mic,
+                  label: 'Controle de Voz',
+                  onPressed: () {
+                   Navigator.push(
+  context,
+  MaterialPageRoute(builder: (context) => VoiceControlPage()),
+);
+
                   },
                 ),
               ],
