@@ -32,7 +32,8 @@ class _VoiceControlPageState extends State<VoiceControlPage> {
   Future<void> _initializeSpeech() async {
     bool available = await _speech.initialize();
     setState(() {
-      status = available ? status : 'Falha ao inicializar reconhecimento de voz';
+      status =
+          available ? status : 'Falha ao inicializar reconhecimento de voz';
     });
   }
 
@@ -125,7 +126,8 @@ class _VoiceControlPageState extends State<VoiceControlPage> {
         sendCommand('LEFT');
       } else if (_recognizedWords.contains('frente')) {
         sendCommand('FORWARD');
-      } else if (_recognizedWords.contains('trás') || _recognizedWords.contains('ré')) {
+      } else if (_recognizedWords.contains('trás') ||
+          _recognizedWords.contains('ré')) {
         sendCommand('BACKWARD');
       } else if (_recognizedWords.contains('parar')) {
         sendCommand('STOP');
@@ -210,7 +212,8 @@ class _VoiceControlPageState extends State<VoiceControlPage> {
                       ],
                     ),
                     child: const Center(
-                      child: Icon(Icons.bluetooth, color: Colors.white, size: 28),
+                      child:
+                          Icon(Icons.bluetooth, color: Colors.white, size: 28),
                     ),
                   ),
                 ),
@@ -226,7 +229,8 @@ class _VoiceControlPageState extends State<VoiceControlPage> {
                           boxShadow: isListening
                               ? [
                                   BoxShadow(
-                                    color: Colors.deepPurpleAccent.withOpacity(0.6),
+                                    color: Colors.deepPurpleAccent
+                                        .withOpacity(0.6),
                                     blurRadius: 30,
                                     spreadRadius: 10,
                                   ),
@@ -241,9 +245,13 @@ class _VoiceControlPageState extends State<VoiceControlPage> {
                             padding: const EdgeInsets.all(20),
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: isListening ? Colors.deepPurpleAccent : Colors.grey[800],
+                              color: isListening
+                                  ? Colors.deepPurpleAccent
+                                  : Colors.grey[800],
                               border: Border.all(
-                                color: isListening ? Colors.deepPurpleAccent : Colors.white38,
+                                color: isListening
+                                    ? Colors.deepPurpleAccent
+                                    : Colors.white38,
                                 width: 3,
                               ),
                             ),
