@@ -109,7 +109,7 @@ class _VoiceControlPageState extends State<VoiceControlPage> {
         'ligar cozinha': '6',
         'apagar cozinha': '7',
         'ligar escritório': '8',
-        'apagar escriório': '9',
+        'apagar escritório': '9',
         'ligar lavanderia': '10',
         'apagar lavanderia': '11',
         'ligar externa': '12',
