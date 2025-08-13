@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aula Arduino: Controle de LED com Bluetooth HC-05</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1e3a8a;
+            /* Tom de azul escuro inspirado na imagem */
+        }
+
+        .card {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .code-block {
+            background-color: #1e293b;
+            border-left: 4px solid #38bdf8;
+        }
+
+        .btn {
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+
+<body class="text-white">
+
+    <!-- Header -->
+    <header class="bg-blue-900/50 backdrop-blur-sm shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <img src="SISTEMA FIERGS_Principal_Branco.png" alt="Logo Sistema FIERGS" class="h-12"
+                onerror="this.onerror=null;this.src='https://placehold.co/200x50/ffffff/1e3a8a?text=FIERGS';">
+            <h1 class="text-xl md:text-2xl font-bold text-center hidden sm:block">Guia Interativo: Arduino e Bluetooth
+            </h1>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-8 md:py-12">
+
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold mb-2">Controle de LED com Módulo Bluetooth HC-05</h2>
+            <p class="text-lg text-blue-200">Um guia passo a passo para seu primeiro projeto de automação sem fio.</p>
+        </div>
+
+        <!-- Seção 1: O que é o Módulo HC-05? -->
+        <section id="intro" class="mb-12">
+            <div class="card rounded-xl p-6 md:p-8">
+                <h3 class="text-3xl font-bold mb-4 border-b-2 border-blue-400 pb-2">Parte 1: O que é o Módulo HC-05?
+                </h3>
+                <div class="flex flex-col md:flex-row gap-8 items-center">
+                    <div class="md:w-2/3">
+                        <p class="mb-4">O <strong>HC-05</strong> é um módulo de comunicação Bluetooth que funciona como
+                            uma "ponte" sem fio entre seu projeto Arduino e outro dispositivo, como um smartphone. Ele
+                            se comunica com o Arduino via <strong>comunicação serial</strong>, tornando simples o envio
+                            e recebimento de comandos.</p>
+                        <h4 class="text-xl font-semibold mb-2">Principais Pinos:</h4>
+                        <ul class="list-disc list-inside space-y-2">
+                            <li><strong>VCC:</strong> Alimentação (conectar no 5V do Arduino).</li>
+                            <li><strong>GND:</strong> Terra (conectar no GND do Arduino).</li>
+                            <li><strong>TXD (Transmissor):</strong> Envia dados para o Arduino (conectar no pino RX do
+                                Arduino).</li>
+                            <li><strong>RXD (Receptor):</strong> Recebe dados do Arduino (conectar no pino TX do
+                                Arduino).</li>
+                        </ul>
+                    </div>
+                    <div class="md:w-1/3 flex justify-center">
+                        <img src="kit_bluetooth_hc05.jpg" alt="Módulo Bluetooth HC-05"
+                            class="rounded-lg shadow-lg max-w-xs w-full"
+                            onerror="this.onerror=null;this.src='https://placehold.co/300x300/1e293b/ffffff?text=Módulo+HC-05';">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção 2: Projeto Prático -->
+        <section id="projeto" class="mb-12">
+            <div class="card rounded-xl p-6 md:p-8">
+                <h3 class="text-3xl font-bold mb-4 border-b-2 border-blue-400 pb-2">Parte 2: Projeto Prático</h3>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="text-xl font-semibold mb-2">Materiais Necessários:</h4>
+                        <ul class="list-disc list-inside space-y-1 text-blue-100">
+                            <li>Arduino Uno</li>
+                            <li>Módulo Bluetooth HC-05</li>
+                            <li>Protoboard</li>
+                            <li>1 LED (qualquer cor)</li>
+                            <li>1 Resistor de 220Ω</li>
+                            <li>Fios Jumper</li>
+                            <li>Smartphone com app "Serial Bluetooth Terminal"</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-semibold mb-2">Diagrama de Conexão:</h4>
+                        <img src="diagrama bt.png" alt="Diagrama de conexão do circuito"
+                            class="rounded-lg shadow-lg w-full"
+                            onerror="this.onerror=null;this.src='https://placehold.co/600x400/1e293b/ffffff?text=Diagrama+do+Circuito';">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção 3: O Código -->
+        <section id="codigo" class="mb-12">
+            <div class="card rounded-xl p-6 md:p-8">
+                <h3 class="text-3xl font-bold mb-4 border-b-2 border-blue-400 pb-2">Parte 3: O Código para o Arduino
+                </h3>
+                <p class="mb-4">Este código utiliza a biblioteca <code>SoftwareSerial</code> para criar uma porta de
+                    comunicação virtual, evitando conflitos com a porta USB. Carregue-o na sua placa Arduino.</p>
+                <div class="relative">
+                    <pre id="arduino-code" class="code-block text-sm md:text-base p-4 rounded-lg overflow-x-auto"><code class="language-cpp">
+
+int portas_led[2] = {8, 7 };
+int led = 8;
+
+void setup() {
+  // Definindo os pinos
+  for (int pinos_led = 0; pinos_led < 2; pinos_led++) {
+    pinMode(portas_led[pinos_led], OUTPUT);
+  }
+
+  Serial.begin(9600);
+}
+
+void loop() {
+  // Receber os dados
+  char c = Serial.read();
+  
+   digitalWrite(led, HIGH);
+
+  if (c == 'A') {  // Quadrado
+    digitalWrite(portas_led[1], HIGH);
+  }
+
+  if (c == 'a') {  // Triangulo
+    digitalWrite(portas_led[1], LOW);
+  }
+
+  // if (c == 'B') {  // X
+  //   digitalWrite(portas_led[0], HIGH);
+  // }
+
+  // if (c == 'b') {  // Bola
+  //   digitalWrite(portas_led[0], LOW);
+  // }
+}
+
+                    </code></pre>
+                    <button id="copy-btn"
+                        class="btn absolute top-3 right-3 bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-3 rounded-md">Copiar</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção 4: Teste -->
+        <section id="teste">
+            <div class="card rounded-xl p-6 md:p-8">
+                <h3 class="text-3xl font-bold mb-4 border-b-2 border-blue-400 pb-2">Parte 4: Configuração e Teste</h3>
+                <ol class="list-decimal list-inside space-y-4">
+                    <li><strong>Ligue o Circuito:</strong> Após carregar o código, alimente o Arduino. O LED do HC-05
+                        piscará <strong>rapidamente</strong>.</li>
+                    <li><strong>Pareamento Bluetooth:</strong> No seu celular, procure por dispositivos Bluetooth.
+                        Conecte-se ao <strong>"HC-05"</strong> usando a senha padrão <strong>`1234`</strong> ou `0000`.
+                        O LED do módulo passará a piscar <strong>lentamente</strong>.</li>
+                    <li><strong>Controle pelo App:</strong> Abra o "Arduino Bluetooth Control", conecte-se ao HC-05. O
+                        LED do módulo ficará <strong>aceso direto</strong>.
+                        <ul class="list-disc list-inside ml-6 mt-2 bg-blue-900/50 p-3 rounded-lg">
+                            <li>Selecioneo gamepad</li>
+                            <li>pressione <strong>'quadrado'</strong> para LIGAR o LED.</li>
+                            <li>pressione <strong>'triângulo'</strong> para DESLIGAR o LED.</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-16 pb-8 text-center text-blue-300">
+        <img src="SISTEMA FIERGS_Principal_Branco.png" alt="Logo Sistema FIERGS" class="h-10 mx-auto mb-4"
+            onerror="this.onerror=null;this.src='https://placehold.co/150x40/ffffff/1e3a8a?text=FIERGS';">
+
+    </footer>
+
+    <script>
+        // Lógica para o botão de copiar código
+        const copyButton = document.getElementById('copy-btn');
+        const codeBlock = document.getElementById('arduino-code');
+
+        copyButton.addEventListener('click', () => {
+            // Criar um textarea temporário para copiar o texto
+            const textArea = document.createElement('textarea');
+            // Usar textContent para preservar espaços e quebras de linha
+            textArea.value = codeBlock.textContent.trim();
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                // Usar document.execCommand para compatibilidade
+                document.execCommand('copy');
+                copyButton.textContent = 'Copiado!';
+                copyButton.classList.remove('bg-blue-500', 'hover:bg-blue-600');
+                copyButton.classList.add('bg-green-500');
+            } catch (err) {
+                console.error('Falha ao copiar o texto: ', err);
+                copyButton.textContent = 'Erro!';
+                copyButton.classList.add('bg-red-500');
+            }
+            document.body.removeChild(textArea);
+
+            // Resetar o texto do botão após alguns segundos
+            setTimeout(() => {
+                copyButton.textContent = 'Copiar';
+                copyButton.classList.remove('bg-green-500', 'bg-red-500');
+                copyButton.classList.add('bg-blue-500', 'hover:bg-blue-600');
+            }, 2000);
+        });
+    </script>
+
+</body>
+
+</html>
